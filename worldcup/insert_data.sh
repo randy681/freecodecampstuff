@@ -1,4 +1,5 @@
 #! /bin/bash
+# Script to insert data from games.csv into worldcup database
 
 if [[ $1 == "test" ]]
 then
@@ -17,8 +18,7 @@ cat games.csv | while IFS="," read YEAR ROUND WINNER OPPONENT WINNER_GOALS OPPON
 do
 if [[ $YEAR != 'year' ]]
 then 
-
-  #get winner_id from teams
+   #get winner_id from teams
   WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'")
 
   #if not there
@@ -37,7 +37,7 @@ then
 
   fi
 
-  #get opponent_id from teams 
+#get opponent_id from teams 
   OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'")
 
   #if not there
@@ -55,7 +55,8 @@ then
     OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'")
   fi
 
-  #insert game to games
+
+#insert game to games
   INSERT_GAME_RESULT=$($PSQL "INSERT INTO games(year, round, winner_id, opponent_id, winner_goals, opponent_goals) VALUES($YEAR, '$ROUND', $WINNER_ID, $OPPONENT_ID, $WINNER_GOALS, $OPPONENT_GOALS)")
   if [[ $INSERT_GAME_RESULT == "INSERT 0 1" ]]
   then

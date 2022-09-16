@@ -21,8 +21,6 @@ echo "$($PSQL "SELECT ROUND((AVG(winner_goals) + AVG(opponent_goals)), 16) AS av
 
 echo -e "\nMost goals scored in a single game by one team:"
 echo "$($PSQL "SELECT MAX(winner_goals) AS max_winner_goals FROM games")"
-# With the name of the team 
-# SELECT name, winner_goals from games INNER JOIN teams on games.winner_id=teams.team_id WHERE winner_goals=(SELECT MAX(winner_goals) FROM games);
 
 echo -e "\nNumber of games where the winning team scored more than two goals:"
 echo "$($PSQL "SELECT COUNT(*) FROM games WHERE winner_goals > 2")"
@@ -41,5 +39,3 @@ echo "$($PSQL "SELECT year, name FROM games INNER JOIN teams ON winner_id=team_i
 
 echo -e "\nList of teams that start with 'Co':"
 echo "$($PSQL "SELECT name FROM teams WHERE name LIKE 'Co%' ORDER BY name")"
-
-echo -e "\n"
